@@ -9,7 +9,7 @@ from sqlalchemy.orm.session import make_transient
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://thekiharani:pass12345word!@127.0.0.1/flask_dev'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://thekiharani:pass12345word!@127.0.0.1:5442/flask_dev'
 db = SQLAlchemy(app)
 
 
@@ -57,6 +57,7 @@ def index():
         db.session.expunge(user)
         make_transient(user)
         user.name = new_name
+        user.date_created = datetime.utcnow()
         user.id = None
         db.session.add(user)
         db.session.commit()
@@ -66,6 +67,7 @@ def index():
         db.session.expunge(post)
         make_transient(post)
         post.title = new_title
+        post.date_created = datetime.utcnow()
         post.id = None
         db.session.add(post)
         db.session.commit()
